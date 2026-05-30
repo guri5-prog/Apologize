@@ -1,0 +1,1844 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
+
+:root {
+  --bg-gradient: radial-gradient(circle, #fff7f7 0%, #ffe8e8 50%, #ffd4d4 100%);
+  --bear-fur: #b67c51;
+  --bear-fur-dark: #915a32;
+  --bear-muzzle: #f5decb;
+  --bear-inner-ear: #e8a29a;
+  --pink-blush: rgba(240, 128, 128, 0.6);
+  --wood-light: #c18b57;
+  --wood-dark: #7a4b25;
+  --btn-pink: #ff6b8b;
+  --btn-pink-hover: #ff4770;
+  --bubble-bg: rgba(255, 255, 255, 0.92);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Fredoka', sans-serif;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Stage & Background Elements */
+#stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  max-width: 900px;
+  max-height: 700px;
+  background: transparent;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Floor Curve */
+.floor {
+  position: absolute;
+  bottom: 0;
+  left: -10%;
+  width: 120%;
+  height: 180px;
+  background: linear-gradient(180deg, #ffd7d7 0%, #fbcbcb 100%);
+  border-radius: 50% 50% 0 0 / 40px 40px 0 0;
+  box-shadow: inset 0 10px 20px rgba(255, 255, 255, 0.4);
+  z-index: 1;
+}
+
+/* Floating Clouds */
+.clouds-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 100px;
+  filter: blur(4px);
+  animation: floatCloud 25s infinite linear;
+}
+
+.cloud::before, .cloud::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+}
+
+.cloud-1 {
+  width: 180px;
+  height: 60px;
+  top: 15%;
+  left: -200px;
+  animation-delay: 0s;
+  animation-duration: 35s;
+}
+.cloud-1::before { width: 80px; height: 80px; top: -40px; left: 30px; }
+.cloud-1::after { width: 60px; height: 60px; top: -30px; left: 90px; }
+
+.cloud-2 {
+  width: 140px;
+  height: 50px;
+  top: 30%;
+  right: -200px;
+  animation-name: floatCloudReverse;
+  animation-delay: 5s;
+  animation-duration: 28s;
+}
+.cloud-2::before { width: 60px; height: 60px; top: -30px; left: 20px; }
+.cloud-2::after { width: 50px; height: 50px; top: -20px; left: 65px; }
+
+.cloud-3 {
+  width: 220px;
+  height: 70px;
+  top: 8%;
+  right: -250px;
+  animation-name: floatCloudReverse;
+  animation-delay: 15s;
+  animation-duration: 42s;
+  opacity: 0.6;
+}
+.cloud-3::before { width: 90px; height: 90px; top: -45px; left: 40px; }
+.cloud-3::after { width: 70px; height: 70px; top: -35px; left: 110px; }
+
+@keyframes floatCloud {
+  0% { left: -250px; }
+  100% { left: 110%; }
+}
+
+@keyframes floatCloudReverse {
+  0% { right: -250px; }
+  100% { right: 110%; }
+}
+
+/* Floating Particles (Hearts & Sparkles) */
+.particles-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.particle {
+  position: absolute;
+  font-size: 18px;
+  opacity: 0;
+  animation: riseAndFade 4s infinite ease-in-out;
+}
+
+@keyframes riseAndFade {
+  0% {
+    transform: translateY(100vh) translateX(0) scale(0.5) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(var(--drift, 50px)) scale(1.2) rotate(var(--rot, 45deg));
+    opacity: 0;
+  }
+}
+
+/* Butterflies */
+.butterfly {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  z-index: 3;
+  animation: flyButterfly 8s linear infinite;
+  display: none; /* Controlled by JS */
+}
+
+.butterfly::before, .butterfly::after {
+  content: '🦋';
+  position: absolute;
+  font-size: 16px;
+  animation: flapWings 0.15s alternate infinite ease-in-out;
+}
+
+@keyframes flapWings {
+  0% { transform: scaleX(0.3); }
+  100% { transform: scaleX(1.1); }
+}
+
+@keyframes flyButterfly {
+  0% { left: -50px; top: 40%; transform: scale(0.8); }
+  25% { top: 20%; transform: scale(1) rotate(15deg); }
+  50% { top: 35%; transform: scale(0.9) rotate(-10deg); }
+  75% { top: 15%; transform: scale(1.1) rotate(20deg); }
+  100% { left: 110%; top: 30%; transform: scale(0.8); }
+}
+
+/* Rain Cloud for NO scene */
+#rain-cloud-container {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.rain-cloud {
+  width: 160px;
+  height: 50px;
+  background: #7a8a9e;
+  border-radius: 100px;
+  position: relative;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  animation: cloudShake 3s infinite ease-in-out;
+}
+
+.rain-cloud::before {
+  content: '';
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  background: #7a8a9e;
+  border-radius: 50%;
+  top: -35px;
+  left: 25px;
+}
+
+.rain-cloud::after {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: #7a8a9e;
+  border-radius: 50%;
+  top: -25px;
+  left: 75px;
+}
+
+.lightning {
+  position: absolute;
+  color: #ffe600;
+  font-size: 24px;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  filter: drop-shadow(0 0 8px rgba(255, 230, 0, 0.8));
+}
+
+@keyframes cloudShake {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.rain-drop {
+  position: absolute;
+  width: 2px;
+  height: 12px;
+  background: #4d90fe;
+  opacity: 0.7;
+  animation: dropRain 0.8s infinite linear;
+}
+
+@keyframes dropRain {
+  0% { transform: translateY(0); opacity: 0.7; }
+  100% { transform: translateY(220px); opacity: 0; }
+}
+
+/* Disco Ball for YES scene */
+#disco-ball-container {
+  position: absolute;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  transition: top 1s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.disco-string {
+  width: 2px;
+  height: 120px;
+  background: #888;
+}
+
+.disco-ball {
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(circle at 30% 30%, #fff, #bbb 40%, #555 80%, #111);
+  border-radius: 50%;
+  box-shadow: 0 10px 25px rgba(255, 107, 139, 0.3), 0 0 15px rgba(255,255,255,0.8);
+  position: relative;
+  overflow: hidden;
+  animation: rotateDisco 4s linear infinite;
+}
+
+/* Facets of the disco ball */
+.disco-ball::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+@keyframes rotateDisco {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.disco-light-beam {
+  position: absolute;
+  width: 1200px;
+  height: 1200px;
+  background: radial-gradient(circle, rgba(255, 107, 139, 0.15) 0%, transparent 60%);
+  top: -560px;
+  left: -560px;
+  pointer-events: none;
+  mix-blend-mode: color-dodge;
+  opacity: 0;
+  transition: opacity 1s;
+  animation: rotateBeam 12s linear infinite;
+}
+
+@keyframes rotateBeam {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Bear Container */
+#bear-container {
+  position: absolute;
+  width: 320px;
+  height: 380px;
+  bottom: 100px;
+  left: -400px; /* Start off screen */
+  z-index: 2;
+  transition: left 0.8s ease-out, transform 0.5s ease-out;
+  transform-origin: bottom center;
+}
+
+/* SVG Bear Styling */
+.bear-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+  overflow: visible;
+}
+
+/* Bear Parts transform origins */
+#head-group {
+  transform-origin: 200px 200px;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#left-ear {
+  transform-origin: 145px 125px;
+  transition: transform 0.3s;
+}
+
+#right-ear {
+  transform-origin: 255px 125px;
+  transition: transform 0.3s;
+}
+
+#left-arm {
+  transform-origin: 135px 230px;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+}
+
+#right-arm {
+  transform-origin: 265px 230px;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+}
+
+#left-leg {
+  transform-origin: 165px 315px;
+  transition: transform 0.3s;
+}
+
+#right-leg {
+  transform-origin: 235px 315px;
+  transition: transform 0.3s;
+}
+
+#torso {
+  transform-origin: 200px 270px;
+  transition: transform 0.4s;
+}
+
+/* Cheeks blushing */
+#left-cheek, #right-cheek {
+  opacity: 0;
+  transform: scale(0.3);
+  transform-origin: center;
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.blushing #left-cheek, .blushing #right-cheek {
+  opacity: 0.7;
+  transform: scale(1);
+}
+
+/* Eyes default, crying, puppy */
+.eye-normal { display: block; }
+.eye-closed, .eye-puppy, .eye-grumpy { display: none; }
+
+.crying-eyes .eye-normal, .crying-eyes .eye-puppy, .crying-eyes .eye-grumpy { display: none; }
+.crying-eyes .eye-closed { display: block; }
+
+.puppy-eyes .eye-normal, .puppy-eyes .eye-closed, .puppy-eyes .eye-grumpy { display: none; }
+.puppy-eyes .eye-puppy { display: block; }
+
+.grumpy-eyes .eye-normal, .grumpy-eyes .eye-closed, .grumpy-eyes .eye-puppy { display: none; }
+.grumpy-eyes .eye-grumpy { display: block; }
+
+/* Mouth transitions */
+.mouth-normal { display: block; }
+.mouth-nervous, .mouth-sad, .mouth-open, .mouth-smile { display: none; }
+
+.nervous-mouth .mouth-normal, .nervous-mouth .mouth-sad, .nervous-mouth .mouth-open, .nervous-mouth .mouth-smile { display: none; }
+.nervous-mouth .mouth-nervous { display: block; }
+
+.sad-mouth .mouth-normal, .sad-mouth .mouth-nervous, .sad-mouth .mouth-open, .sad-mouth .mouth-smile { display: none; }
+.sad-mouth .mouth-sad { display: block; }
+
+.open-mouth .mouth-normal, .open-mouth .mouth-nervous, .open-mouth .mouth-sad, .mouth-smile { display: none; }
+.open-mouth .mouth-open { display: block; }
+
+.smile-mouth .mouth-normal, .smile-mouth .mouth-nervous, .smile-mouth .mouth-sad, .smile-mouth .mouth-open { display: none; }
+.smile-mouth .mouth-smile { display: block; }
+
+/* Dynamic Bear Poses */
+
+/* Walk Animation */
+.walk-anim #left-leg {
+  animation: walkLeft 0.5s alternate infinite ease-in-out;
+}
+.walk-anim #right-leg {
+  animation: walkRight 0.5s alternate infinite ease-in-out;
+}
+.walk-anim #torso {
+  animation: walkBody 0.5s alternate infinite ease-in-out;
+}
+.walk-anim #head-group {
+  animation: walkHead 0.5s alternate-reverse infinite ease-in-out;
+}
+
+@keyframes walkLeft {
+  0% { transform: rotate(-15deg); }
+  100% { transform: rotate(10deg); }
+}
+@keyframes walkRight {
+  0% { transform: rotate(10deg); }
+  100% { transform: rotate(-15deg); }
+}
+@keyframes walkBody {
+  0% { transform: rotate(-2deg) translateY(-2px); }
+  100% { transform: rotate(2deg) translateY(2px); }
+}
+@keyframes walkHead {
+  0% { transform: rotate(-2deg); }
+  100% { transform: rotate(2deg); }
+}
+
+/* Arm position: behind back */
+.arms-behind #left-arm {
+  transform: rotate(-135deg) translate(5px, 10px);
+}
+.arms-behind #right-arm {
+  transform: rotate(135deg) translate(-5px, 10px);
+}
+
+/* Arm position: holding board */
+.arms-holding #left-arm {
+  transform: rotate(70deg) translate(-18px, 12px);
+}
+.arms-holding #right-arm {
+  transform: rotate(-70deg) translate(18px, 12px);
+}
+
+/* Star effect above head */
+#stars-group {
+  opacity: 0;
+  transform-origin: 200px 80px;
+  transition: opacity 0.3s;
+}
+
+.stars-active #stars-group {
+  opacity: 1;
+  animation: starsRotate 2s linear infinite;
+}
+
+@keyframes starsRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Thought Bubbles */
+.thought-bubble {
+  position: absolute;
+  background: var(--bubble-bg);
+  border-radius: 20px;
+  padding: 12px 18px;
+  font-size: 15px;
+  color: #6d4c41;
+  font-weight: 500;
+  max-width: 180px;
+  box-shadow: 0 6px 16px rgba(255, 107, 139, 0.15), 0 2px 4px rgba(0,0,0,0.05);
+  border: 2px solid #fff;
+  opacity: 0;
+  transform: scale(0.6) translateY(20px);
+  transition: opacity 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Bubble Tail (Little circles for thought bubble) */
+.thought-bubble::after, .thought-bubble::before {
+  content: '';
+  position: absolute;
+  background: var(--bubble-bg);
+  border-radius: 50%;
+  border: 1px solid #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+
+.thought-bubble.bubble-left {
+  top: 50px;
+  left: 20px;
+}
+.thought-bubble.bubble-left::after {
+  width: 14px;
+  height: 14px;
+  bottom: -15px;
+  right: 40px;
+}
+.thought-bubble.bubble-left::before {
+  width: 8px;
+  height: 8px;
+  bottom: -22px;
+  right: 32px;
+}
+
+.thought-bubble.bubble-right {
+  top: 50px;
+  right: 20px;
+}
+.thought-bubble.bubble-right::after {
+  width: 14px;
+  height: 14px;
+  bottom: -15px;
+  left: 40px;
+}
+.thought-bubble.bubble-right::before {
+  width: 8px;
+  height: 8px;
+  bottom: -22px;
+  left: 32px;
+}
+
+.thought-bubble.show {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  animation: bubbleGentleWiggle 4s infinite ease-in-out;
+}
+
+@keyframes bubbleGentleWiggle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Wood Board HTML Styling within SVG foreignObject */
+.wood-board {
+  width: 240px;
+  height: 160px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, var(--wood-light) 0%, var(--wood-dark) 100%);
+  border: 6px solid #4a280e;
+  border-radius: 14px;
+  box-shadow: 
+    0 10px 20px rgba(0,0,0,0.3),
+    inset 0 4px 0 rgba(255,255,255,0.25),
+    inset 0 -4px 0 rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  text-align: center;
+  color: #fff2e6;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  font-family: 'Fredoka', sans-serif;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Board Wood Texture lines */
+.wood-board::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 12px,
+    rgba(0, 0, 0, 0.08) 12px,
+    rgba(0, 0, 0, 0.08) 14px
+  );
+  pointer-events: none;
+}
+
+.wood-board-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.wood-board-subtitle {
+  font-size: 13px;
+  line-height: 1.4;
+  opacity: 0.95;
+}
+
+/* Button container inside wood board */
+.board-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  width: 100%;
+  justify-content: center;
+  z-index: 2;
+}
+
+.board-btn {
+  background: #ff6b8b;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #b33951;
+  transition: transform 0.1s, box-shadow 0.1s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.board-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #b33951;
+}
+
+.board-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #b33951;
+}
+
+.board-btn.btn-no {
+  background: #4facfe;
+  box-shadow: 0 4px 0 #0066cc;
+}
+
+.board-btn.btn-no:hover {
+  box-shadow: 0 6px 0 #0066cc;
+}
+
+.board-btn.btn-no:active {
+  box-shadow: 0 2px 0 #0066cc;
+}
+
+/* Board positions & properties */
+#board-front {
+  transform-origin: 200px 240px;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+  opacity: 0;
+  transform: scale(0.2) translateY(50px);
+}
+
+.show-front-board #board-front {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+#board-behind {
+  transform-origin: 200px 240px;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+  opacity: 0;
+  transform: scale(0.2) translateY(50px);
+}
+
+.show-behind-board #board-behind {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Board slip animation for scene 5B */
+.board-slip #board-front {
+  animation: boardSlipDrop 1s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes boardSlipDrop {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  30% {
+    transform: translateY(20px) rotate(-15deg);
+  }
+  100% {
+    transform: translateY(115px) rotate(-85deg) translateX(-40px) scale(0.95);
+    opacity: 0.9;
+  }
+}
+
+/* Board thrown animation for YES/dance scene */
+.board-thrown #board-front {
+  animation: boardThrow 0.8s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes boardThrow {
+  0% {
+    transform: scale(1) translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(1.05) translateY(-15px) rotate(5deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.2) translateY(320px) rotate(140deg) translateX(180px);
+    opacity: 0;
+  }
+}
+
+
+/* Tripping Animation (Scene 3) */
+.tripping-anim {
+  animation: tripSequence 3s forwards ease-in-out;
+}
+
+@keyframes tripSequence {
+  0% {
+    transform: rotate(0deg) translateY(0);
+  }
+  20% {
+    transform: rotate(10deg) translateY(-10px);
+  }
+  30% {
+    transform: rotate(-85deg) translateY(80px) translateX(-50px);
+  }
+  80% {
+    transform: rotate(-85deg) translateY(80px) translateX(-50px);
+  }
+  100% {
+    transform: rotate(0deg) translateY(0) translateX(0);
+  }
+}
+
+/* Board Flying during trip */
+.trip-board-fly #board-behind {
+  animation: boardFlyTrip 3s forwards ease-in-out;
+}
+
+@keyframes boardFlyTrip {
+  0% {
+    opacity: 1;
+    transform: scale(0.95) translate(0, 30px);
+  }
+  20% {
+    transform: scale(0.9) translate(-10px, 10px) rotate(-10deg);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1) translate(40px, -150px) rotate(180deg);
+  }
+  50% {
+    transform: scale(1) translate(70px, 80px) rotate(340deg);
+  }
+  80% {
+    transform: scale(1) translate(70px, 105px) rotate(355deg);
+    opacity: 1;
+  }
+  95% {
+    opacity: 0;
+    transform: scale(0.5) translate(70px, 105px) rotate(355deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+}
+
+/* Dust Puff Cloud (for trips & runs) */
+.dust-puff {
+  position: absolute;
+  background: rgba(255,255,255,0.7);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+}
+
+.dust-active {
+  animation: dustExplode 0.8s forwards ease-out;
+}
+
+@keyframes dustExplode {
+  0% {
+    transform: scale(0.2) translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2) translateY(-20px);
+    opacity: 0;
+  }
+}
+
+/* Crying Tear drops */
+.tear {
+  position: absolute;
+  width: 8px;
+  height: 12px;
+  background: #33a3ff;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  pointer-events: none;
+  z-index: 5;
+  animation: tearFall 0.8s forwards linear;
+}
+
+@keyframes tearFall {
+  0% {
+    transform: scale(0.3) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2) translateY(120px) translateX(var(--tear-drift, 0px));
+    opacity: 0;
+  }
+}
+
+/* Crying bear shake */
+.crying-anim {
+  animation: cryShake 0.15s infinite alternate ease-in-out;
+}
+
+.crying-anim #left-arm {
+  transform: rotate(135deg) translate(-25px, -35px);
+}
+.crying-anim #right-arm {
+  transform: rotate(-135deg) translate(25px, -35px);
+}
+
+@keyframes cryShake {
+  0% { transform: translateX(-2px) translateY(0); }
+  100% { transform: translateX(2px) translateY(-1px); }
+}
+
+/* Anime Power up glow */
+.power-glow {
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255, 107, 139, 0.4) 40%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  z-index: 1;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 1s, opacity 1s;
+}
+
+.power-active .power-glow {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  animation: auraPulse 0.5s infinite alternate ease-in-out;
+}
+
+@keyframes auraPulse {
+  0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+}
+
+.power-active #head-group {
+  animation: determinedEyes 0.6s infinite alternate ease-in-out;
+}
+
+@keyframes determinedEyes {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.02); }
+}
+
+/* Dance Animations */
+.dance-bharata {
+  animation: bharataBounce 0.6s infinite alternate ease-in-out;
+}
+.dance-bharata #left-arm {
+  animation: bharataArmL 1s infinite alternate ease-in-out;
+}
+.dance-bharata #right-arm {
+  animation: bharataArmR 1s infinite alternate ease-in-out;
+}
+.dance-bharata #head-group {
+  animation: bharataHead 0.5s infinite alternate ease-in-out;
+}
+
+@keyframes bharataBounce {
+  0% { transform: translateY(0) scaleY(1); }
+  100% { transform: translateY(10px) scaleY(0.95); }
+}
+@keyframes bharataArmL {
+  0% { transform: rotate(10deg); }
+  100% { transform: rotate(80deg) translate(-10px, -20px); }
+}
+@keyframes bharataArmR {
+  0% { transform: rotate(-80deg) translate(10px, -20px); }
+  100% { transform: rotate(-10deg); }
+}
+@keyframes bharataHead {
+  0% { transform: rotate(-8deg); }
+  100% { transform: rotate(8deg); }
+}
+
+/* Bhangra Dance */
+.dance-bhangra {
+  animation: bhangraJump 0.4s infinite alternate ease-in-out;
+}
+.dance-bhangra #left-arm {
+  transform: rotate(140deg) translate(-15px, -15px);
+  animation: bhangraArmL 0.2s infinite alternate ease-in-out;
+}
+.dance-bhangra #right-arm {
+  transform: rotate(-140deg) translate(15px, -15px);
+  animation: bhangraArmR 0.2s infinite alternate ease-in-out;
+}
+.dance-bhangra #left-leg {
+  transform: rotate(-25deg);
+}
+.dance-bhangra #right-leg {
+  transform: rotate(25deg);
+}
+
+@keyframes bhangraJump {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-30px); }
+}
+@keyframes bhangraArmL {
+  0% { transform: rotate(130deg) translate(-10px, -10px); }
+  100% { transform: rotate(155deg) translate(-20px, -20px); }
+}
+@keyframes bhangraArmR {
+  0% { transform: rotate(-155deg) translate(20px, -20px); }
+  100% { transform: rotate(-130deg) translate(10px, -10px); }
+}
+
+/* Hip Hop Dance */
+.dance-hiphop {
+  animation: hiphopBody 0.6s infinite alternate ease-in-out;
+}
+.dance-hiphop #left-arm {
+  animation: hiphopArmL 0.6s infinite alternate ease-in-out;
+}
+.dance-hiphop #right-arm {
+  animation: hiphopArmR 0.6s infinite alternate ease-in-out;
+}
+
+@keyframes hiphopBody {
+  0% { transform: skewX(-5deg) translateY(0); }
+  100% { transform: skewX(5deg) translateY(-5px); }
+}
+@keyframes hiphopArmL {
+  0% { transform: rotate(-20deg); }
+  100% { transform: rotate(45deg); }
+}
+@keyframes hiphopArmR {
+  0% { transform: rotate(-45deg); }
+  100% { transform: rotate(20deg); }
+}
+
+/* Falling for Hip Hop Moonwalk fail */
+.hiphop-fail-anim {
+  animation: hiphopFail 2.5s forwards ease-in-out;
+}
+
+@keyframes hiphopFail {
+  0% {
+    transform: rotate(0deg) translateY(0) translateX(0);
+  }
+  30% {
+    transform: rotate(-80deg) translateY(80px) translateX(-40px);
+  }
+  80% {
+    transform: rotate(-80deg) translateY(80px) translateX(-40px);
+  }
+  100% {
+    transform: rotate(0deg) translateY(0) translateX(0);
+  }
+}
+
+/* Confetti canvas */
+#confetti-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* Audio notes flying around (Dhol representation) */
+.music-note {
+  position: absolute;
+  font-size: 20px;
+  color: #ff6b8b;
+  pointer-events: none;
+  z-index: 5;
+  animation: flyMusic 1.5s forwards ease-out;
+}
+
+@keyframes flyMusic {
+  0% { transform: scale(0.5) translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1.3) translateY(-100px) translateX(var(--drift, 30px)) rotate(var(--rot, 25deg)); opacity: 0; }
+}
+
+/* Custom Alert Banner */
+.custom-alert {
+  position: absolute;
+  top: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 10px 20px;
+  color: #ff6b8b;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(255, 107, 139, 0.2);
+  transform: translateY(-80px);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 10;
+  border-left: 5px solid #ff6b8b;
+}
+
+.custom-alert.show {
+  transform: translateY(0);
+}
+
+/* ==========================================
+   ROMANCE SCENE OVERLAY & SLIDESHOW
+   ========================================== */
+
+.romance-container {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 480px;
+  height: 380px;
+  z-index: 12;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease-in-out;
+}
+.romance-container.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.romance-card {
+  width: 100%;
+  height: 100%;
+  background: #fff0f5; /* Lavender blush background */
+  border-radius: 24px;
+  box-shadow: 0 15px 35px rgba(255, 107, 139, 0.3), inset 0 0 15px rgba(255,255,255,0.6);
+  border: 5px solid #fff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: cardPulse 4s infinite alternate ease-in-out;
+}
+
+@keyframes cardPulse {
+  0% { box-shadow: 0 15px 30px rgba(255, 107, 139, 0.25); }
+  100% { box-shadow: 0 20px 45px rgba(255, 107, 139, 0.45); }
+}
+
+.romance-scene-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.romance-caption-area {
+  height: 85px;
+  background: linear-gradient(135deg, #ff8da1, #ff527b);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 24px;
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  text-shadow: 0 1.5px 3px rgba(0,0,0,0.3);
+  border-top: 3px solid #ff3362;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+  font-family: 'Fredoka', sans-serif;
+  line-height: 1.4;
+}
+
+/* Reusable Teddy Bears inside romance scenes */
+.r-bear {
+  position: absolute;
+  width: 80px;
+  height: 90px;
+  z-index: 5;
+}
+.r-bear .head {
+  position: absolute;
+  width: 52px;
+  height: 48px;
+  background: var(--bear-color);
+  border-radius: 50%;
+  top: 0;
+  left: 14px;
+  border: 2px solid #5a361b;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.06);
+}
+.r-bear .ear-l, .r-bear .ear-r {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: var(--bear-color);
+  border-radius: 50%;
+  border: 2px solid #5a361b;
+}
+.r-bear .ear-l { top: -3px; left: 10px; }
+.r-bear .ear-r { top: -3px; right: 10px; }
+.r-bear .ear-inner {
+  width: 10px;
+  height: 10px;
+  background: #e8a29a;
+  border-radius: 50%;
+  margin: 2px;
+}
+.r-bear .muzzle {
+  position: absolute;
+  width: 20px;
+  height: 14px;
+  background: #f5decb;
+  border-radius: 50%;
+  bottom: 5px;
+  left: 14px;
+}
+.r-bear .nose {
+  position: absolute;
+  width: 6px;
+  height: 4px;
+  background: #2d1c10;
+  border-radius: 50%;
+  top: 2px;
+  left: 7px;
+}
+.r-bear .eye-l, .r-bear .eye-r {
+  position: absolute;
+  width: 5.5px;
+  height: 5.5px;
+  background: #2d1c10;
+  border-radius: 50%;
+  top: 18px;
+}
+.r-bear .eye-l { left: 14px; }
+.r-bear .eye-r { right: 14px; }
+
+.r-bear .head .eye-l.closed, .r-bear .head .eye-r.closed {
+  width: 8px;
+  height: 4px;
+  border-radius: 0 0 4px 4px;
+  background: transparent;
+  border-bottom: 2.5px solid #2d1c10;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  top: 17px;
+}
+
+.r-bear .body {
+  position: absolute;
+  width: 62px;
+  height: 52px;
+  background: var(--bear-color);
+  border-radius: 50% 50% 40% 40%;
+  border: 2px solid #5a361b;
+  bottom: 0;
+  left: 9px;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.06);
+}
+.r-bear .blush {
+  position: absolute;
+  width: 9px;
+  height: 6px;
+  background: rgba(240, 128, 128, 0.75);
+  border-radius: 50%;
+  top: 24px;
+}
+.r-bear .blush-l { left: 8px; }
+.r-bear .blush-r { right: 8px; }
+
+/* Male bear */
+.r-bear-male {
+  --bear-color: #b67c51;
+}
+/* Female bear */
+.r-bear-female {
+  --bear-color: #fce4d6; /* Light peach cream color */
+}
+.r-bear-female .bow {
+  position: absolute;
+  width: 14px;
+  height: 10px;
+  background: #ff4770;
+  border-radius: 2px;
+  top: -6px;
+  left: 6px;
+  z-index: 5;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.r-bear-female .bow::before, .r-bear-female .bow::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+.r-bear-female .bow::before {
+  border-left: 6px solid #ff4770;
+  left: -4px;
+  top: 0;
+}
+.r-bear-female .bow::after {
+  border-right: 6px solid #ff4770;
+  right: -4px;
+  top: 0;
+}
+
+/* ==========================================
+   SCENE 1: Bench Date
+   ========================================== */
+.r-scene-date {
+  background: linear-gradient(to bottom, #4a154b, #8a2387, #e94057, #f27121);
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.r-scene-date .sunset-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.r-scene-date .sun {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, #fff 20%, #ffeb3b 50%, transparent 80%);
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  filter: blur(2px);
+  animation: sunGlow 3s infinite alternate ease-in-out;
+}
+@keyframes sunGlow {
+  0% { transform: translateX(-50%) scale(0.95); opacity: 0.8; }
+  100% { transform: translateX(-50%) scale(1.05); opacity: 1; }
+}
+.r-scene-date .birds {
+  position: absolute;
+  font-size: 24px;
+  top: 25%;
+  left: 20%;
+  opacity: 0.65;
+  animation: birdsFly 10s infinite linear;
+}
+@keyframes birdsFly {
+  0% { transform: translate(0, 0) scale(0.8); }
+  50% { transform: translate(150px, -20px) scale(0.9); }
+  100% { transform: translate(300px, 0) scale(0.8); }
+}
+.r-scene-date .swing-holder {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 250px;
+  transform-origin: top center;
+  animation: swaySwing 3s infinite ease-in-out alternate;
+}
+@keyframes swaySwing {
+  0% { transform: translateX(-50%) rotate(-6deg); }
+  100% { transform: translateX(-50%) rotate(6deg); }
+}
+.r-scene-date .chain {
+  position: absolute;
+  width: 2px;
+  height: 190px;
+  background: rgba(255,255,255,0.45);
+  top: 0;
+}
+.r-scene-date .chain-l { left: 25px; }
+.r-scene-date .chain-r { right: 25px; }
+.r-scene-date .swing-bench {
+  position: absolute;
+  bottom: 30px;
+  left: 10px;
+  width: 200px;
+  height: 35px;
+  background: #8b4513;
+  border-radius: 4px;
+  border: 1.5px solid #2d1c10;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+}
+.r-scene-date .swing-bench::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 8px;
+  width: 184px;
+  height: 12px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 2px;
+}
+
+/* ==========================================
+   SCENE 2: Starry Kiss
+   ========================================== */
+.r-scene-kiss {
+  background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.r-scene-kiss .starry-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
+  background-size: 120px 120px;
+  background-position: 0 0, 40px 60px;
+  animation: starsSparkle 4s infinite alternate ease-in-out;
+}
+@keyframes starsSparkle {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.5; }
+}
+.r-scene-kiss .kissing-bears {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 120px;
+}
+.r-scene-kiss .r-kiss-male {
+  left: 5px;
+  bottom: 10px;
+  animation: kissMale 2.5s infinite ease-in-out alternate;
+}
+.r-scene-kiss .r-kiss-female {
+  right: 5px;
+  bottom: 10px;
+  animation: kissFemale 2.5s infinite ease-in-out alternate;
+}
+@keyframes kissMale {
+  0% { transform: translateX(0) rotate(0); }
+  35%, 100% { transform: translateX(25px) rotate(8deg); }
+}
+@keyframes kissFemale {
+  0% { transform: translateX(0) rotate(0); }
+  35%, 100% { transform: translateX(-25px) rotate(-8deg); }
+}
+.r-scene-kiss .kiss-hearts {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  font-size: 24px;
+  text-align: center;
+  top: 15%;
+  animation: heartsFloatUp 3s infinite linear;
+}
+@keyframes heartsFloatUp {
+  0% { transform: translateY(120px) scale(0.6); opacity: 0; }
+  10% { opacity: 0.8; }
+  85% { opacity: 0.8; }
+  100% { transform: translateY(-30px) scale(1.1); opacity: 0; }
+}
+
+/* ==========================================
+   SCENE 3: Cozy Cuddle
+   ========================================== */
+.r-scene-cuddle {
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.r-scene-cuddle .bedroom-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.r-scene-cuddle .lamp {
+  position: absolute;
+  font-size: 32px;
+  top: 20px;
+  right: 40px;
+  filter: drop-shadow(0 0 10px #ffe066);
+  animation: lampPulse 2s infinite alternate ease-in-out;
+}
+@keyframes lampPulse {
+  0% { opacity: 0.85; filter: drop-shadow(0 0 6px #ffe066); }
+  100% { opacity: 1; filter: drop-shadow(0 0 14px #ffe066); }
+}
+.r-scene-cuddle .cozy-bed {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  height: 140px;
+  background: #ffebf0;
+  border-radius: 12px;
+  border: 3px solid #ffccd5;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.r-scene-cuddle .pillows {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  width: 210px;
+  height: 35px;
+  display: flex;
+  gap: 10px;
+}
+.r-scene-cuddle .pillows::before, .r-scene-cuddle .pillows::after {
+  content: '';
+  flex: 1;
+  height: 100%;
+  background: #fff;
+  border: 2.5px solid #ffccd5;
+  border-radius: 8px;
+}
+.r-scene-cuddle .cuddling-bears-bed {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 75px;
+  display: flex;
+  gap: 8px;
+  animation: cuddleWiggle 2.5s infinite ease-in-out;
+}
+.r-scene-cuddle .r-cuddle-male, .r-scene-cuddle .r-cuddle-female {
+  position: relative;
+  width: 70px;
+  height: 70px;
+}
+.r-scene-cuddle .r-cuddle-male .head, .r-scene-cuddle .r-cuddle-female .head {
+  left: 10px;
+}
+.r-scene-cuddle .cozy-blanket {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 75px;
+  background: #ff9fb2;
+  border-top: 3.5px solid #ff4770;
+  border-radius: 8px 8px 0 0;
+  box-shadow: inset 0 4px 6px rgba(255,255,255,0.4);
+}
+.r-scene-cuddle .cozy-zzz {
+  position: absolute;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffcbd5;
+  top: 12px;
+  left: 30px;
+  animation: zzzFloat 3.5s infinite linear;
+}
+@keyframes zzzFloat {
+  0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.8; }
+  100% { transform: translate(-20px, -35px) scale(1.1); opacity: 0; }
+}
+
+/* ==========================================
+   SCENE 4: Cooking & Slab
+   ========================================== */
+.r-scene-cook {
+  background: linear-gradient(135deg, #ffebd9, #ffd3b6);
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.r-scene-cook .kitchen-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.r-scene-cook .shelf {
+  position: absolute;
+  font-size: 26px;
+  top: 25px;
+  left: 40px;
+  opacity: 0.75;
+}
+.r-scene-cook .r-cook-male {
+  left: 60px;
+  bottom: 45px;
+  animation: cookStir 1.5s infinite ease-in-out;
+}
+.r-scene-cook .chef-hat {
+  position: absolute;
+  font-size: 24px;
+  top: -24px;
+  left: 20px;
+  z-index: 10;
+  animation: chefHatWiggle 1.5s infinite alternate ease-in-out;
+}
+@keyframes chefHatWiggle {
+  0% { transform: rotate(-5deg); }
+  100% { transform: rotate(5deg); }
+}
+.r-scene-cook .stirring-spoon {
+  position: absolute;
+  font-size: 24px;
+  right: -12px;
+  top: 28px;
+  animation: stirArm 0.6s infinite linear;
+}
+.r-scene-cook .stove {
+  position: absolute;
+  left: 130px;
+  bottom: 45px;
+  width: 60px;
+  height: 40px;
+  background: #7a7a7a;
+  border-radius: 4px;
+  border: 2px solid #333;
+}
+.r-scene-cook .pot {
+  position: absolute;
+  top: -20px;
+  left: 10px;
+  width: 40px;
+  height: 22px;
+  background: #d1d1d1;
+  border-radius: 0 0 10px 10px;
+  border: 2px solid #555;
+  box-shadow: inset 0 2px 3px #fff;
+}
+.r-scene-cook .pot::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -2px;
+  width: 44px;
+  height: 4px;
+  background: #8e8e8e;
+  border-radius: 2px;
+}
+.r-scene-cook .steam {
+  position: absolute;
+  font-size: 16px;
+  top: -30px;
+  left: 10px;
+  animation: steamRise 1.8s infinite linear;
+}
+@keyframes steamRise {
+  0% { transform: translateY(10px) scale(0.6); opacity: 0; }
+  30% { opacity: 0.6; }
+  100% { transform: translateY(-30px) scale(1.2); opacity: 0; }
+}
+.r-scene-cook .kitchen-slab {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 250px;
+  height: 50px;
+  background: linear-gradient(135deg, #d3c2b0, #b2a18f);
+  border-top: 5px solid #7c6c5c;
+  border-left: 2px solid #7c6c5c;
+  border-radius: 12px 0 0 0;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+.r-scene-cook .r-cook-female {
+  right: 60px;
+  bottom: 48px;
+}
+.r-scene-cook .dangling-legs {
+  position: absolute;
+  bottom: -16px;
+  left: 24px;
+  display: flex;
+  gap: 8px;
+}
+.r-scene-cook .leg {
+  width: 10px;
+  height: 22px;
+  background: #fce4d6;
+  border-radius: 5px;
+  border: 2px solid #5a361b;
+  transform-origin: top center;
+}
+.r-scene-cook .leg-l {
+  animation: swingLeg 1.2s infinite ease-in-out alternate;
+}
+.r-scene-cook .leg-r {
+  animation: swingLeg 1.2s infinite ease-in-out alternate-reverse;
+}
+
+/* ==========================================
+   SCENE 5: Lap Rest
+   ========================================== */
+.r-scene-lap {
+  background: linear-gradient(to bottom, #c9e4de, #f2c9e4);
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.r-scene-lap .garden-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.r-scene-lap .tree-trunk {
+  position: absolute;
+  left: 10px;
+  bottom: 0;
+  width: 45px;
+  height: 170px;
+  background: #8b5a2b;
+  border-right: 3px solid #5a361b;
+  border-radius: 0 15px 0 0;
+}
+.r-scene-lap .tree-leaves {
+  position: absolute;
+  font-size: 54px;
+  left: -20px;
+  top: 10px;
+  animation: leavesBlow 3s infinite alternate ease-in-out;
+}
+@keyframes leavesBlow {
+  0% { transform: rotate(-3deg) scale(0.95); }
+  100% { transform: rotate(3deg) scale(1.05); }
+}
+.r-scene-lap .lap-resting-bears {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
+  height: 140px;
+}
+.r-scene-lap .r-lap-male {
+  left: 45px;
+  bottom: 5px;
+}
+.r-scene-lap .petting-hand {
+  position: absolute;
+  font-size: 20px;
+  right: -6px;
+  top: 42px;
+  transform-origin: left center;
+  animation: petHead 1.5s infinite ease-in-out alternate;
+}
+.r-scene-lap .r-lap-female {
+  right: 45px;
+  bottom: 5px;
+}
+.r-scene-lap .body-lying {
+  position: absolute;
+  width: 80px;
+  height: 44px;
+  background: #fce4d6;
+  border-radius: 22px;
+  border: 2px solid #5a361b;
+  bottom: 0;
+  left: 0;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.06);
+}
+.r-scene-lap .head-lying {
+  position: absolute;
+  width: 50px;
+  height: 46px;
+  background: #fce4d6;
+  border-radius: 50%;
+  border: 2px solid #5a361b;
+  bottom: 10px;
+  left: -22px; /* Rested exactly on male teddy's lap area */
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.06);
+}
+
+/* ==========================================
+   SCENE 6: Body Massage
+   ========================================== */
+.r-scene-massage {
+  background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.r-scene-massage .spa-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.r-scene-massage .candles {
+  position: absolute;
+  font-size: 26px;
+  top: 25px;
+  right: 40px;
+  opacity: 0.8;
+}
+.r-scene-massage .massage-setup {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  height: 140px;
+}
+.r-scene-massage .massage-table {
+  position: absolute;
+  right: 25px;
+  bottom: 5px;
+  width: 120px;
+  height: 38px;
+  background: linear-gradient(to right, #ffccd5, #ffb3c1);
+  border-radius: 8px;
+  border: 2px solid #ff4770;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+.r-scene-massage .massage-table::before {
+  content: '';
+  position: absolute;
+  bottom: -35px;
+  left: 20px;
+  width: 10px;
+  height: 35px;
+  background: #ffb3c1;
+  border-left: 2.5px solid #ff4770;
+  border-right: 2.5px solid #ff4770;
+}
+.r-scene-massage .massage-table::after {
+  content: '';
+  position: absolute;
+  bottom: -35px;
+  right: 20px;
+  width: 10px;
+  height: 35px;
+  background: #ffb3c1;
+  border-left: 2.5px solid #ff4770;
+  border-right: 2.5px solid #ff4770;
+}
+.r-scene-massage .r-massage-female {
+  right: 45px;
+  bottom: 45px;
+}
+.r-scene-massage .body-flat {
+  position: absolute;
+  width: 82px;
+  height: 36px;
+  background: #fce4d6;
+  border-radius: 18px;
+  border: 2px solid #5a361b;
+  bottom: 0;
+  left: 10px;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.06);
+}
+.r-scene-massage .head-flat {
+  position: absolute;
+  width: 48px;
+  height: 44px;
+  background: #fce4d6;
+  border-radius: 50%;
+  border: 2px solid #5a361b;
+  bottom: 8px;
+  left: -20px;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.06);
+}
+.r-scene-massage .r-massage-male {
+  left: 25px;
+  bottom: 5px;
+  animation: massagePush 1s infinite alternate ease-in-out;
+}
+.r-scene-massage .massage-hands {
+  position: absolute;
+  display: flex;
+  gap: 4px;
+  right: -18px;
+  top: 42px;
+  animation: massageHandsMov 0.5s infinite alternate ease-in-out;
+}
+@keyframes massageHandsMov {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
+}
+

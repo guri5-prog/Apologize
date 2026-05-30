@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I'm So Sorry... 🥺</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Floating particles container for background hearts/sparkles -->
+  <div class="particles-container" id="particles-container"></div>
+
+  <!-- Ambient background clouds -->
+  <div class="clouds-container">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+  </div>
+
+  <!-- Main Stage -->
+  <div id="stage">
+
+    <!-- Custom Alert for Easter Eggs -->
+    <div id="custom-alert" class="custom-alert">Hey! I'm apologizing here! 😤</div>
+
+    <!-- Rain Cloud (NO path) -->
+    <div id="rain-cloud-container">
+      <div class="rain-cloud">
+        <span class="lightning" id="lightning">⚡</span>
+      </div>
+      <!-- Rain drops will be generated here by JS -->
+    </div>
+
+    <!-- Disco Ball (YES path) -->
+    <div id="disco-ball-container">
+      <div class="disco-string"></div>
+      <div class="disco-ball"></div>
+    </div>
+    <div class="disco-light-beam" id="disco-beam"></div>
+
+    <!-- Confetti canvas for happy endings -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Thought bubbles -->
+    <div id="thought-left" class="thought-bubble bubble-left"></div>
+    <div id="thought-right" class="thought-bubble bubble-right"></div>
+
+    <!-- Butterfly element for walking scene -->
+    <div id="butterfly-1" class="butterfly" style="animation-delay: 0s;"></div>
+    <div id="butterfly-2" class="butterfly" style="animation-delay: 3s; animation-duration: 9s;"></div>
+
+    <!-- Bear Container -->
+    <div id="bear-container" class="arms-behind blushing smile-mouth">
+      
+      <!-- Power aura glow backdrop -->
+      <div class="power-glow"></div>
+
+      <!-- SVG Teddy Bear -->
+      <svg class="bear-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        
+        <!-- Stars group (tripping scene) -->
+        <g id="stars-group">
+          <!-- Star 1 -->
+          <polygon points="200,55 203,62 210,63 205,68 206,75 200,71 194,75 195,68 190,63 197,62" fill="#ffd700" stroke="#b39700" stroke-width="1"/>
+          <!-- Star 2 -->
+          <polygon points="160,80 163,87 170,88 165,93 166,100 160,96 154,100 155,93 150,88 157,87" fill="#ffd700" stroke="#b39700" stroke-width="1"/>
+          <!-- Star 3 -->
+          <polygon points="240,80 243,87 250,88 245,93 246,100 240,96 234,100 235,93 230,88 237,87" fill="#ffd700" stroke="#b39700" stroke-width="1"/>
+        </g>
+
+        <!-- 1. SIGNBOARD (BEHIND BACK) -->
+        <g id="board-behind">
+          <foreignObject x="80" y="200" width="240" height="160">
+            <div class="wood-board" id="html-board-behind">
+              <div class="wood-board-title" id="board-behind-title">I'm Sorry</div>
+              <div class="wood-board-subtitle" id="board-behind-subtitle">Please forgive me</div>
+            </div>
+          </foreignObject>
+        </g>
+
+        <!-- 2. LEGS -->
+        <!-- Left Leg -->
+        <g id="left-leg">
+          <rect x="150" y="295" width="36" height="55" rx="18" fill="var(--bear-fur)" stroke="var(--bear-fur-dark)" stroke-width="2.5"/>
+          <!-- Foot Pad -->
+          <ellipse cx="168" cy="332" rx="11" ry="11" fill="var(--bear-inner-ear)"/>
+          <circle cx="160" cy="316" r="4.5" fill="var(--bear-inner-ear)"/>
+          <circle cx="168" cy="314" r="4.5" fill="var(--bear-inner-ear)"/>
+          <circle cx="176" cy="317" r="4.5" fill="var(--bear-inner-ear)"/>
+        </g>
+        <!-- Right Leg -->
+        <g id="right-leg">
+          <rect x="214" y="295" width="36" height="55" rx="18" fill="var(--bear-fur)" stroke="var(--bear-fur-dark)" stroke-width="2.5"/>
+          <!-- Foot Pad -->
+          <ellipse cx="232" cy="332" rx="11" ry="11" fill="var(--bear-inner-ear)"/>
+          <circle cx="224" cy="317" r="4.5" fill="var(--bear-inner-ear)"/>
+          <circle cx="232" cy="314" r="4.5" fill="var(--bear-inner-ear)"/>
+          <circle cx="240" cy="316" r="4.5" fill="var(--bear-inner-ear)"/>
+        </g>
+
+        <!-- 3. BODY (TORSO) -->
+        <g id="torso">
+          <ellipse cx="200" cy="255" rx="56" ry="62" fill="var(--bear-fur)" stroke="var(--bear-fur-dark)" stroke-width="2.5"/>
+          <!-- Inner Belly -->
+          <ellipse cx="200" cy="265" rx="36" ry="42" fill="var(--bear-muzzle)"/>
+        </g>
+
+        <!-- 4. SIGNBOARD (FRONT) -->
+        <g id="board-front">
+          <foreignObject x="80" y="195" width="240" height="160">
+            <div class="wood-board" id="html-board-front">
+              <div class="wood-board-title" id="board-front-title">Are you angry?</div>
+              <div class="board-buttons" id="board-front-buttons">
+                <!-- Buttons will be dynamic -->
+              </div>
+            </div>
+          </foreignObject>
+        </g>
+
+        <!-- 5. ARMS -->
+        <!-- Left Arm -->
+        <g id="left-arm">
+          <rect x="122" y="210" width="28" height="66" rx="14" fill="var(--bear-fur)" stroke="var(--bear-fur-dark)" stroke-width="2.5"/>
+          <circle cx="136" cy="262" r="8" fill="var(--bear-inner-ear)"/>
+        </g>
+        <!-- Right Arm -->
+        <g id="right-arm">
+          <rect x="250" y="210" width="28" height="66" rx="14" fill="var(--bear-fur)" stroke="var(--bear-fur-dark)" stroke-width="2.5"/>
+          <circle cx="264" cy="262" r="8" fill="var(--bear-inner-ear)"/>
+        </g>
+
+        <!-- 6. HEAD GROUP -->
+        <g id="head-group">
+          <!-- Ears -->
+          <!-- Left Ear -->
+          <g id="left-ear">
+            <circle cx="152" cy="115" r="22" fill="var(--bear-fur)" stroke="var(--bear-fur-dark)" stroke-width="2.5"/>
+            <circle cx="152" cy="115" r="12" fill="var(--bear-inner-ear)"/>
+          </g>
+          <!-- Right Ear -->
+          <g id="right-ear">
+            <circle cx="248" cy="115" r="22" fill="var(--bear-fur)" stroke="var(--bear-fur-dark)" stroke-width="2.5"/>
+            <circle cx="248" cy="115" r="12" fill="var(--bear-inner-ear)"/>
+          </g>
+
+          <!-- Head Shape -->
+          <circle cx="200" cy="155" r="56" fill="var(--bear-fur)" stroke="var(--bear-fur-dark)" stroke-width="2.5"/>
+
+          <!-- Blush Cheeks -->
+          <ellipse id="left-cheek" cx="164" cy="168" rx="11" ry="8" fill="var(--pink-blush)"/>
+          <ellipse id="right-cheek" cx="236" cy="168" rx="11" ry="8" fill="var(--pink-blush)"/>
+
+          <!-- Snout/Muzzle -->
+          <ellipse cx="200" cy="172" rx="21" ry="15" fill="var(--bear-muzzle)"/>
+
+          <!-- Nose -->
+          <path d="M 193 167 Q 200 161 207 167 Q 200 173 193 167" fill="#2d1c10"/>
+
+          <!-- Mouths -->
+          <!-- Mouth Normal -->
+          <path class="mouth-normal" d="M 196 173 Q 200 177 200 173 Q 200 177 204 173" fill="none" stroke="#2d1c10" stroke-width="2" stroke-linecap="round"/>
+          <!-- Mouth Smile -->
+          <path class="mouth-smile" d="M 194 174 Q 197 179 200 175 Q 203 179 206 174" fill="none" stroke="#2d1c10" stroke-width="2" stroke-linecap="round"/>
+          <!-- Mouth Sad -->
+          <path class="mouth-sad" d="M 194 179 Q 200 172 206 179" fill="none" stroke="#2d1c10" stroke-width="2" stroke-linecap="round"/>
+          <!-- Mouth Nervous -->
+          <line class="mouth-nervous" x1="192" y1="175" x2="208" y2="175" stroke="#2d1c10" stroke-width="2" stroke-linecap="round"/>
+          <!-- Mouth Open -->
+          <circle class="mouth-open" cx="200" cy="177" r="5.5" fill="#2d1c10"/>
+
+          <!-- Eyes -->
+          <!-- Normal Eyes -->
+          <circle class="eye-normal" cx="175" cy="148" r="5.5" fill="#2d1c10"/>
+          <circle class="eye-normal" cx="225" cy="148" r="5.5" fill="#2d1c10"/>
+
+          <!-- Closed Eyes -->
+          <path class="eye-closed" d="M 169 150 Q 175 144 181 150" fill="none" stroke="#2d1c10" stroke-width="2.5" stroke-linecap="round"/>
+          <path class="eye-closed" d="M 219 150 Q 225 144 231 150" fill="none" stroke="#2d1c10" stroke-width="2.5" stroke-linecap="round"/>
+
+          <!-- Puppy Eyes -->
+          <g class="eye-puppy">
+            <!-- Left Puppy Eye -->
+            <circle cx="175" cy="148" r="8.5" fill="#2d1c10"/>
+            <circle cx="172.5" cy="145" r="2.8" fill="#fff"/>
+            <circle cx="177.5" cy="151.5" r="1.3" fill="#fff"/>
+            <!-- Right Puppy Eye -->
+            <circle cx="225" cy="148" r="8.5" fill="#2d1c10"/>
+            <circle cx="222.5" cy="145" r="2.8" fill="#fff"/>
+            <circle cx="227.5" cy="151.5" r="1.3" fill="#fff"/>
+          </g>
+
+          <!-- Grumpy Eyes -->
+          <g class="eye-grumpy">
+            <path d="M 168 147 L 180 152" stroke="#2d1c10" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M 232 147 L 220 152" stroke="#2d1c10" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M 167 140 L 179 144" stroke="#2d1c10" stroke-width="2" stroke-linecap="round"/>
+            <path d="M 233 140 L 221 144" stroke="#2d1c10" stroke-width="2" stroke-linecap="round"/>
+          </g>
+
+        </g>
+      </svg>
+    </div>
+
+    <!-- Romance Container -->
+    <div id="romance-container" class="romance-container"></div>
+
+    <!-- Ambient floor behind/front overlay for depth -->
+    <div class="floor"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
